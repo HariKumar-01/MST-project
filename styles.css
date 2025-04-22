@@ -1,0 +1,358 @@
+/* Reset Defaults */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General Styles */
+body {
+    font-family: 'Oswald', sans-serif;
+    background-color: #fff;
+    color: #111;
+    line-height: 1.5;
+}
+
+/* HEADER */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 3px solid black;
+}
+
+.wired-logo {
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: black;
+    color: white;
+    padding: 8px 12px;
+    display: inline-block;
+}
+
+.nav-menu ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-menu ul li {
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.nav-menu ul li:hover {
+    color: #ff6600;
+}
+
+.search-container input {
+    padding: 8px;
+    font-size: 1em;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+.category-menu ul {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    padding: 15px 30px;
+    background: #222;
+    overflow-x: auto;
+}
+
+.category-menu ul li {
+    padding: 10px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.category-menu ul li a {
+    color: white;
+    text-decoration: none; /* Removes the underline from links */
+}
+
+.category-menu ul li a:hover {
+    color: #ff6600; /* Changes link color on hover */
+}
+
+.category-menu ul li:hover {
+    background: #ff6600;
+}
+
+
+/* MAIN CONTENT GRID */
+.news-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 30px;
+    padding: 30px;
+}
+
+/* LEFT COLUMN (TODAY'S PICKS) */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+    background: black;
+    color: white;
+    padding: 5px 10px;
+    text-transform: uppercase;
+}
+
+/* Small Story Items */
+.story-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.story-item img {
+    width: 100%;
+    height: 70%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.story-item h3 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.story-item p {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+}
+
+/* MIDDLE COLUMN (FEATURED STORY) */
+.middle-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.featured-story img {
+    width: 100%;
+    height: 90%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.featured-story h2 {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.featured-story p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    font-family: BreveText, helvetica, sans-serif;
+}
+
+/* RIGHT COLUMN (MOST RECENT) */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.recent-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recent-list li {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.recent-list img {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.recent-list h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.recent-list p {
+    font-size: 15px;
+    font-weight: 600;
+    color: #888;
+}
+
+/* Divider */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+
+
+
+
+
+
+
+
+/* Latest Articles Section */
+.latest-articles {
+    padding: 30px;
+    text-align: center;
+    background: white;
+    font-family: 'Oswald', sans-serif;
+    border-top: 3px solid black;
+}
+
+.latest-articles h2 {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Language Selector Dropdown */
+.language-selector {
+    font-size: 16px;
+    padding: 8px;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: white;
+    color: black;
+    transition: all 0.3s ease-in-out;
+}
+
+.language-selector:hover {
+    background: black;
+    color: white;
+}
+
+/* Articles Container - Using Grid */
+.articles-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive grid */
+    gap: 25px;
+    padding: 30px;
+    justify-content: center;
+}
+
+/* Article Card - Wired Aesthetic */
+.article-card {
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 5px 5px 0px black;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 8px 8px 0px black;
+}
+
+.article-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 3px;
+    margin-bottom: 15px;
+}
+
+/* Read More Button */
+.read-more {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid black;
+    text-transform: uppercase;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.read-more:hover {
+    background: black;
+    color: white;
+}
+
+/* Department Box */
+.department-box {
+    background: black;
+    color: white;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+/* Sentiment Indicators */
+.sentiment {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.sentiment .positive {
+    color: green;
+}
+
+.sentiment .neutral {
+    color: orange;
+}
+
+.sentiment .negative {
+    color: red;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .articles-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .latest-articles h2 {
+        font-size: 20px;
+    }
+
+    .article-card {
+        padding: 15px;
+    }
+}
+

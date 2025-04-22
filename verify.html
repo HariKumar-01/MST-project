@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verify News</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #000000, #111111);
+      color: white;
+      overflow-x: hidden;
+    }
+    .container {
+      padding: 80px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 30px;
+      max-width: 700px;
+    }
+    textarea {
+      width: 90vw;
+      max-width: 900px;
+      height: 250px;
+      padding: 20px;
+      font-size: 1.1rem;
+      border-radius: 15px;
+      border: none;
+      outline: none;
+      background-color: #1a1a1a;
+      color: #00ff99;
+      resize: vertical;
+      margin-bottom: 30px;
+    }
+    .btn {
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      border: none;
+      background-color: #00ff99;
+      color: black;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      background-color: #00e68a;
+    }
+    .result-box {
+      margin-top: 40px;
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 700px;
+      font-size: 1.3rem;
+      display: none;
+    }
+    .model-name {
+      color: white;
+    }
+    .green {
+      color: #00ff99;
+      font-weight: bold;
+    }
+    .red {
+      color: #ff4c4c;
+      font-weight: bold;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="backgroundCanvas"></canvas>
+
+  <div class="container">
+    <h1>Paste Article to Verify</h1>
+    <p>Enter any news article below and let our AI detect if it's real or fake.</p>
+    
+    <form id="verifyForm">
+      <textarea name="news" id="newsInput" placeholder="Paste the article content here..." required></textarea>
+      <br />
+      <button class="btn" type="submit">✅ Verify</button>
+    </form>
+
+    <div class="result-box" id="resultBox">
+      <div id="lr"></div>
+      <div id="dt"></div>
+      <div id="gb"></div>
+      <div id="rf"></div>
+    </div>
+  </div>
+
+  <script>
+    // Background canvas animation
+    const canvas = document.getElementById('backgroundCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const points = Array.from({ length: 25 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.7,
+      vy: (Math.random() - 0.5) * 0.7
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = '#00ff99';
+      ctx.lineWidth = 0.5;
+
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#00ff99';
+        ctx.fill();
+        for (let j = i + 1; j < points.length; j++) {
+          const q = points[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 180) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // AJAX Form Handler
+    document.getElementById('verifyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const news = document.getElementById('newsInput').value;
+
+      fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ news: news })
+      })
+      .then(response => response.json())
+      .then(data => {
+        function formatPrediction(id, label, value) {
+          const colorClass = value === 'Not A Fake News' ? 'green' : 'red';
+          return `<span class="model-name">${label}:</span> <span class="${colorClass}">${value}</span>`;
+        }
+
+        document.getElementById('lr').innerHTML = formatPrediction('lr', '🧠 LR Prediction', data.prediction_text_LR);
+        document.getElementById('dt').innerHTML = formatPrediction('dt', '🌳 DT Prediction', data.prediction_text_DT);
+        document.getElementById('gb').innerHTML = formatPrediction('gb', '🚀 GB Prediction', data.prediction_text_GB);
+        document.getElementById('rf').innerHTML = formatPrediction('rf', '🌲 RF Prediction', data.prediction_text_RF);
+
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+  </script>
+</body>
+</html>

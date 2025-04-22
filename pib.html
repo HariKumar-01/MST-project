@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIB News Verification Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0a0a12;
+      --bg-darker: #050508;
+      --accent: #00ffaa;
+      --accent-dark: #00cc88;
+      --danger: #ff4c6a;
+      --success: #00ffaa;
+      --warning: #ffaa00;
+      --text-primary: #ffffff;
+      --text-secondary: #aaaaaa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+    
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 255, 170, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+    
+    .verification-form textarea {
+      width: 100%;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 15px;
+      color: var(--text-primary);
+      font-family: inherit;
+      margin-bottom: 15px;
+      resize: vertical;
+      transition: border 0.3s ease;
+    }
+    
+    .verification-form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .btn {
+      background: var(--accent);
+      color: var(--bg-darker);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .results {
+      margin-top: 20px;
+      display: none;
+    }
+    
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .result-label {
+      font-weight: 500;
+    }
+    
+    .result-value {
+      font-weight: 600;
+    }
+    
+    .verified {
+      color: var(--success);
+    }
+    
+    .fake {
+      color: var(--danger);
+    }
+    
+    #map {
+      height: 400px;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+    
+    .news-feed {
+      grid-column: span 2;
+    }
+    
+    .news-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .news-item:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+    
+    .news-content {
+      flex: 1;
+    }
+    
+    .news-title {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .news-meta {
+      display: flex;
+      gap: 15px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    
+    .news-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .badge-verified {
+      background: rgba(0, 255, 170, 0.1);
+      color: var(--success);
+    }
+    
+    .badge-fake {
+      background: rgba(255, 76, 106, 0.1);
+      color: var(--danger);
+    }
+    
+    .badge-pending {
+      background: rgba(255, 170, 0, 0.1);
+      color: var(--warning);
+    }
+    
+    .load-more-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .news-feed {
+        grid-column: span 1;
+      }
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  
+  <div class="container">
+    <header>
+      <div class="logo">PIB Verification Dashboard</div>
+      <button class="theme-toggle">
+        <i class="icon">🌓</i> Dark Mode
+      </button>
+    </header>
+    
+    <div class="dashboard-grid">
+      <!-- Verification Card -->
+      <div class="card animate-in">
+        <div class="card-header">
+          <h2 class="card-title">News Verification</h2>
+          <div class="card-icon">🔍</div>
+        </div>
+        <form class="verification-form" id="verifyForm">
+          <textarea id="newsInput" placeholder="Paste news article content here to verify its authenticity..."></textarea>
+          <button type="submit" class="btn">Verify Article</button>
+        </form>
+        <div class="results" id="results">
+          <div class="result-item">
+            <span class="result-label">Logistic Regression:</span>
+            <span class="result-value" id="lr-result"></span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Decision Tree:</span>
+            <span class="result-value" id="dt-result"></span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Gradient Boosting:</span>
+            <span class="result-value" id="gb-result"></span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Random Forest:</span>
+            <span class="result-value" id="rf-result"></span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stats Card -->
+      <div class="card animate-in delay-1">
+        <div class="card-header">
+          <h2 class="card-title">Verification Statistics</h2>
+          <div class="card-icon">📊</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="statsChart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Map Card -->
+      <div class="card animate-in delay-2">
+        <div class="card-header">
+          <h2 class="card-title">Fake News Hotspots</h2>
+          <div class="card-icon">🗺️</div>
+        </div>
+        <div id="map"></div>
+      </div>
+      
+      <!-- Sources Card -->
+      <div class="card animate-in delay-3">
+        <div class="card-header">
+          <h2 class="card-title">Source Distribution</h2>
+          <div class="card-icon">📱</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="sourcesChart"></canvas>
+        </div>
+      </div>
+    </div>
+   <!-- News Feed -->
+      <div class="card news-feed animate-in delay-4">
+        <div class="card-header">
+          <h2 class="card-title">Recent Verifications</h2>
+          <div class="card-icon">📰</div>
+        </div>
+        <div class="news-items">
+          <div class="news-item">
+            <div class="news-content">
+              <div class="news-title">Government announces new education policy reforms</div>
+              <div class="news-meta">
+                <span>The Times of India</span>
+                <span>2 hours ago</span>
+              </div>
+            </div>
+            <div class="news-badge badge-verified">Verified</div>
+          </div>
+          <div class="news-item">
+            <div class="news-content">
+              <div class="news-title">Celebrity spotted at controversial event</div>
+              <div class="news-meta">
+                <span>Twitter Viral Post</span>
+                <span>5 hours ago</span>
+              </div>
+            </div>
+            <div class="news-badge badge-fake">Fake</div>
+          </div>
+          <div class="news-item">
+            <div class="news-content">
+              <div class="news-title">New tax regulations starting next month</div>
+              <div class="news-meta">
+                <span>YouTube Channel</span>
+                <span>8 hours ago</span>
+              </div>
+            </div>
+            <div class="news-badge badge-pending">Pending</div>
+          </div>
+          <div class="news-item">
+            <div class="news-content">
+              <div class="news-title">Health ministry issues new COVID guidelines</div>
+              <div class="news-meta">
+                <span>Official PIB Release</span>
+                <span>12 hours ago</span>
+              </div>
+            </div>
+            <div class="news-badge badge-verified">Verified</div>
+          </div>
+          <div class="news-item">
+            <div class="news-content">
+              <div class="news-title">Opposition leader makes controversial statement</div>
+              <div class="news-meta">
+                <span>Facebook Post</span>
+                <span>1 day ago</span>
+              </div>
+            </div>
+            <div class="news-badge badge-fake">Fake</div>
+          </div>
+         <div class="load-more-container">
+<button class="btn btn-secondary" id="loadMoreBtn" onclick="window.location.href='/verify_news'">Load More Articles</button>
+<button class="btn btn-danger text-white" id="loadMoreBtn" onclick="window.location.href='/login'">
+  Log Out
+</button>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Initialize particles.js background
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#00ffaa" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.3, "random": true },
+        "size": { "value": 3, "random": true },
+        "line_linked": { "enable": true, "distance": 150, "color": "#00ffaa", "opacity": 0.2, "width": 1 },
+        "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" },
+          "onclick": { "enable": true, "mode": "push" }
+        }
+      }
+    });
+
+    // Initialize charts
+    const statsCtx = document.getElementById('statsChart').getContext('2d');
+    const statsChart = new Chart(statsCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+          {
+            label: 'Verified News',
+            data: [120, 190, 170, 210, 240, 180],
+            backgroundColor: 'rgba(0, 255, 170, 0.7)',
+            borderColor: 'rgba(0, 255, 170, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Fake News',
+            data: [30, 45, 60, 35, 50, 70],
+            backgroundColor: 'rgba(255, 76, 106, 0.7)',
+            borderColor: 'rgba(255, 76, 106, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+            ticks: { color: 'rgba(255, 255, 255, 0.7)' }
+          },
+          x: {
+            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+            ticks: { color: 'rgba(255, 255, 255, 0.7)' }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: { color: 'rgba(255, 255, 255, 0.7)' }
+          }
+        },
+        animation: {
+          duration: 2000
+        }
+      }
+    });
+
+    const sourcesCtx = document.getElementById('sourcesChart').getContext('2d');
+    const sourcesChart = new Chart(sourcesCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Twitter', 'Facebook', 'YouTube', 'News Sites', 'WhatsApp'],
+        datasets: [{
+          data: [35, 25, 20, 15, 5],
+          backgroundColor: [
+            'rgba(29, 161, 242, 0.7)',
+            'rgba(66, 103, 178, 0.7)',
+            'rgba(255, 0, 0, 0.7)',
+            'rgba(0, 255, 170, 0.7)',
+            'rgba(37, 211, 102, 0.7)'
+          ],
+          borderColor: [
+            'rgba(29, 161, 242, 1)',
+            'rgba(66, 103, 178, 1)',
+            'rgba(255, 0, 0, 1)',
+            'rgba(0, 255, 170, 1)',
+            'rgba(37, 211, 102, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: { color: 'rgba(255, 255, 255, 0.7)' }
+          }
+        },
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      }
+    });
+
+    // Initialize map
+    const map = L.map('map').setView([20.5937, 78.9629], 5);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 8,
+      minZoom: 4
+    }).addTo(map);
+    
+    // Add fake news hotspots
+    const hotspots = [
+      { coords: [28.6139, 77.2090], intensity: 0.8, name: "Delhi" },
+      { coords: [19.0760, 72.8777], intensity: 0.7, name: "Mumbai" },
+      { coords: [12.9716, 77.5946], intensity: 0.6, name: "Bengaluru" }
+    ];
+    
+    hotspots.forEach(hotspot => {
+      const radius = hotspot.intensity * 30;
+      const color = `rgb(${Math.floor(255 * hotspot.intensity)}, ${Math.floor(255 * (1 - hotspot.intensity))}, 0)`;
+      
+      L.circle(hotspot.coords, {
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.5,
+        radius: radius * 1000
+      }).addTo(map).bindPopup(`<b>${hotspot.name}</b><br>Fake news risk: ${Math.round(hotspot.intensity * 100)}%`);
+    });
+
+    // Form submission handler
+    document.getElementById('verifyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const textarea = document.getElementById('newsInput');
+      const content = textarea.value.trim();
+      
+      if (content.length < 50) {
+        alert('Please enter a longer news article for accurate verification.');
+        return;
+      }
+      
+      fetch('/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `news=${encodeURIComponent(content)}`
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('lr-result').textContent = data.prediction_text_LR;
+        document.getElementById('lr-result').className = `result-value ${data.prediction_text_LR === 'Not A Fake News' ? 'verified' : 'fake'}`;
+        
+        document.getElementById('dt-result').textContent = data.prediction_text_DT;
+        document.getElementById('dt-result').className = `result-value ${data.prediction_text_DT === 'Not A Fake News' ? 'verified' : 'fake'}`;
+        
+        document.getElementById('gb-result').textContent = data.prediction_text_GB;
+        document.getElementById('gb-result').className = `result-value ${data.prediction_text_GB === 'Not A Fake News' ? 'verified' : 'fake'}`;
+        
+        document.getElementById('rf-result').textContent = data.prediction_text_RF;
+        document.getElementById('rf-result').className = `result-value ${data.prediction_text_RF === 'Not A Fake News' ? 'verified' : 'fake'}`;
+        
+        document.getElementById('results').style.display = 'block';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred during verification. Please try again.');
+      });
+    });
+
+    // Load news articles
+    function loadNewsArticles() {
+      fetch('/get-news')
+        .then(response => response.json())
+        .then(data => {
+          const newsContainer = document.getElementById('newsItems');
+          newsContainer.innerHTML = '';
+          
+          data.forEach(item => {
+            const newsItem = document.createElement('div');
+            newsItem.className = 'news-item';
+            
+            let badgeClass = 'badge-pending';
+            if (item.status === 'verified') badgeClass = 'badge-verified';
+            if (item.status === 'fake') badgeClass = 'badge-fake';
+            
+            newsItem.innerHTML = `
+              <div class="news-content">
+                <div class="news-title">${item.title}</div>
+                <div class="news-meta">
+                  <span>${item.source}</span>
+                  <span>${item.timestamp}</span>
+                </div>
+              </div>
+              <div class="news-badge ${badgeClass}">${item.status}</div>
+            `;
+            
+            newsContainer.appendChild(newsItem);
+          });
+        });
+    }
+
+    // Load more news articles
+    document.getElementById('loadMoreBtn').addEventListener('click', function() {
+      window.location.href = '/verify-news'; // Redirect to verify.html for more news
+    });
+
+    // Initial load
+    loadNewsArticles();
+  </script>
+</body>
+</html>

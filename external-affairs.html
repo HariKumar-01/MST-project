@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry of External Affairs News</title>
+    <style>
+        /* Reset Defaults */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Oswald', sans-serif;
+            background-color: #fff;
+            color: #111;
+            line-height: 1.5;
+        }
+
+        /* HEADER */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 20px 30px;
+            border-bottom: 3px solid black;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: black;
+            color: white;
+            padding: 8px 12px;
+            display: inline-block;
+        }
+
+        .nav-menu ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-menu ul li {
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .nav-menu ul li:hover {
+            color: #ff6600;
+        }
+
+        .search-container input {
+            padding: 8px;
+            font-size: 1em;
+            border: 2px solid black;
+            border-radius: 4px;
+        }
+
+        /* Category Menu */
+        .category-menu ul {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+            padding: 15px 30px;
+            background: #222;
+            overflow-x: auto;
+        }
+
+        .category-menu ul li {
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .category-menu ul li:hover {
+            background: #ff6600;
+        }
+
+        /* Latest Articles Section */
+        .latest-articles {
+            padding: 20px;
+        }
+
+        .latest-articles h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .language-selector {
+            font-size: 16px;
+            padding: 5px;
+            margin-left: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .articles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .article-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 30%;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .article-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            margin-top: 10px;
+            padding: 5px 10px;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .read-more:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .department-box {
+            background-color: grey;
+            padding: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            color: black;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+
+        .sentiment {
+            display: flex;
+            justify-content: space-around;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .sentiment .positive {
+            color: green;
+            font-weight: bold;
+        }
+
+        .sentiment .neutral {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .sentiment .negative {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="navbar">
+        <div class="logo">NEWS ANALYSIS</div>
+        <nav class="nav-menu">
+            <ul>
+                <li>Home</li>
+                <li>Ministries</li>
+                <li>About</li>
+                <li>Contact</li>
+            </ul>
+        </nav>
+        <div class="search-container">
+            <input type="text" placeholder="Search...">
+        </div>
+    </header>
+
+    <!-- Category Menu -->
+    <nav class="category-menu">
+        <ul>
+            <li>External Affairs</li>
+            <li>LAW & JUSTICS</li>
+            <LI> YOUTH $ SPORTS</li>
+            <li>Finance</li>
+            <li>INTERNAL SECURITY</li>
+            <li>CULTURE</li>
+            <li>HOME AFFAIRS</li>
+            <li>SCIENCE & TECH</li>
+            <li>INFORMATION TECHNOLOGY</li>
+        </ul>
+    </nav>
+
+    <!-- Latest Articles Section -->
+    <section class="latest-articles">
+        <h2>Latest News on External Affairs</h2>
+        <div class="language-selector">
+            <div id="google_translate_element"></div>
+            <label for="language">Select Language:</label>
+            <select id="language" onchange="translatePage()">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+            </select>
+        </div>
+        <div class="articles-container">
+    <!-- Article 1 -->
+    <div class="article-card">
+        <img src="images/g20.png" alt="Article Image 1">
+        <h3>India Hosts G20 Summit</h3>
+        <p>India successfully hosted the G20 summit, focusing on global economic stability and sustainable development.</p>
+        <button class="read-more">Read More</button>
+        <div class="department-box">External Affairs</div>
+        <div class="sentiment">
+            <span class="positive">Positive:<br>60%</span>
+            <span class="neutral">Neutral:<br>20%</span>
+            <span class="negative">Negative:<br>20%</span>
+        </div>
+    </div>
+    <!-- Article 2 -->
+    <div class="article-card">
+        <img src="images/japan.png" alt="Article Image 2">
+        <h3>India and Japan Strengthen Bilateral Ties</h3>
+        <p>India and Japan have agreed to enhance their strategic partnership, focusing on defense cooperation and economic collaboration.</p>
+        <button class="read-more">Read More</button>
+        <div class="department-box">External Affairs</div>
+        <div class="sentiment">
+            <span class="positive">Positive:<br>41%</span>
+            <span class="neutral">Neutral:<br>36%</span>
+            <span class="negative">Negative:<br>12%</span>
+        </div>
+    </div>
+    <!-- Article 3 -->
+    <div class="article-card">
+        <img src="images/usa.png" alt="Article Image 3">
+        <h3>India-US Trade Talks Yield Positive Outcomes</h3>
+        <p>Recent trade discussions between India and the United States have led to agreements aimed at reducing tariffs and enhancing market access.</p>
+        <button class="read-more">Read More</button>
+<br><br>
+        <div class="department-box">External Affairs</div>
+        <div class="sentiment">
+            <span class="positive">Positive:<br>80%</span>
+            <span class="neutral">Neutral:<br>10%</span>
+            <span class="negative">Negative:<br>10%</span>
+        </div>
+    </div>
+    <!-- Article 4 -->
+    <div class="article-card">
+        <img src="images/climate.png" alt="Article Image 4">
+        <h3>India Participates in Climate Change Conference</h3>
+        <p>At the recent international climate conference, India reiterated its commitment to reducing carbon emissions and promoting sustainable practices.</p>
+        <button class="read-more">Read More</button>
+        <div class="department-box">External Affairs</div>
+        <div class="sentiment">
+            <span class="positive">Positive:<br>70%</span>
+            <span class="neutral">Neutral:<br>5%</span>
+            <span class="negative">Negative:<br>25%</span>
+        </div>
+    </div>
+    <!-- Article 5 -->
+    <div class="article-card">
+        <img src="images/aus.png" alt="Article Image 5">
+        <h3>India and Australia Sign Defense Agreement</h3>
+        <p>India and Australia have entered into a new defense agreement to enhance military cooperation and ensure regional security.</p>
+        <button class="read-more">Read More</button>
+        <div class="department-box">External Affairs</div>
+        <div class="sentiment">
+            <span class="positive">Positive:<br>10%</span>
+            <span class="neutral">Neutral:<br>30%</span>
+            <span class="negative">Negative:<br>8\60%</span>
+        </div>
+    </div>
+    <!-- Article 6 -->
+    <div class="article-card">
+        <img src="images/peace.png" alt="Article Image 6">
+        <h3>India Engages in Peace Talks with Neighboring Countries</h3>
+        <p>In a bid to promote regional stability, India has initiated peace talks with neighboring countries to resolve longstanding disputes.</p>
+        <button class="read-more">Read More</button>
+        <div class="department-box">External Affairs</div>
+        <div class="sentiment">
+            <span class="positive">Positive:<br>5%</span>
+            <span class="neutral">Neutral:<br>15%</span>
+            <span class="negative">Negative:<br>80%</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</html>
+

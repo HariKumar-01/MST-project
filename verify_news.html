@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Analysis | WIRED Style</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                {pageLanguage: 'en', includedLanguages: 'en,hi,te,ta,bn,mr,gu,kn,ml,pa,ur', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 
+                'google_translate_element'
+            );
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="navbar">
+            <div class="logo-container">
+                <span class="wired-logo">NEWS ANALYSIS</span>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li>SECURITY</li>
+                    <li>POLITICS</li>
+                    <li>ECONOMY</li>
+                    <li>SCIENCE</li>
+                    <li>CULTURE</li>
+                    <li>TECH</li>
+                    <li>WORLD</li>
+                </ul>
+            </nav>
+            <div class="search-container">
+                <input type="text" placeholder="Search..." class="search-bar">
+            </div>
+            <div id="google_translate_element" class="translate-container"></div>
+        </div>
+    </header>
+
+    <!-- Category Menu -->
+    <nav class="category-menu">
+        <ul>
+            <li><a href="external-affairs">External Affairs</a></li>
+            <li><a href="external-affairs">Law & Justice</a></li>
+            <li><a href="external-affairs">Youth & Sports</a></li>
+            <li><a href="external-affairs">Finance</a></li>
+            <li><a href="external-affairs">Internal Security</a></li>
+            <li><a href="external-affairs">Culture</a></li>
+            <li><a href="external-affairs">Home Affairs</a></li>
+            <li><a href="external-affairs">Science & Tech</a></li>
+            <li><a href="external-affairs">INFORMATION TECHNOLOGY</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="news-section">
+    <!-- LEFT COLUMN (TODAY'S PICKS) -->
+    <div class="left-column">
+        <div class="section-title">Today's Picks</div>
+        <div class="story-item">
+            <img src="images/plane.png" alt="Plane Crash">
+            <h3>Washington DC Plane Crash Highlights</h3>
+            <p>Trump Says US Is 'In Mourning' After No Survivors From Plane Crash</p>
+        </div>
+        <div class="story-item">
+            <img src="images/nothing.jpeg" alt="Nothing Phone">
+            <h3>Nothing Phone 3a Series</h3>
+            <p>India Launch Date Set for March 4; Flipkart Availability Confirmed</p>
+        </div>
+    </div>
+
+    <!-- MIDDLE COLUMN (FEATURED STORY) -->
+    <div class="middle-column">
+        <div class="featured-story">
+            <img src="images/deepseek.png" alt="Ministry of Finance">
+            <h2>Exposed DeepSeek Database Revealed Chat Prompts</h2>
+            <p>China-based DeepSeek has exploded in popularity, drawing greater scrutiny. Case in point: Security researchers found more than 1 million records, including user data and API keys, in an open database.</p>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN (MOST RECENT) -->
+    <div class="right-column">
+        <div class="section-title">Most Recent</div>
+        <ul class="recent-list">
+            <li>
+                <img src="images/kumbh.jpeg" alt="Maha Kumbh">
+                <div>
+                    <h4>Maha Kumbh stampede: Judicial commission to finish probe in a month</h4>
+                    <p>Harish Kumar and panel members</p>
+                </div>
+            </li>
+            <li>
+                <img src="images/it.png" alt="IT">
+                <div>
+                    <h4>IT minister Hari Kumar</h4>
+                    <p>Privacy issue with china's DeepSeek</p>
+                </div>
+            </li>
+           <li>
+                <img src="images/ind.png" alt="IND">
+                <div>
+                    <h4>IND vs ENG, 3rd T20I</h4>
+                    <p>Kevin Pietersen slams India's batting order after Rajkot loss</p>
+                </div>
+            </li>
+            <li>
+                <img src="images/market.png" alt="market">
+                <div>
+                    <h4>China's AI DeepSeek</h4>
+                    <p>DeepSeek tech wipeout erases more than $1 trillion in market cap</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    <!-- Latest Articles Section -->
+    <section class="latest-articles">
+        <h2>Latest Articles</h2>
+        
+        <div class="articles-container" id="articlesContainer">
+            <!-- Ministry of Home Affairs -->
+            <wired-card class="article-card">
+                <img src="images/ministry_home_affairs.jpg" alt="Ministry of Home Affairs">
+                <h3 class="translatable" data-en="MHA launches 100-Day Intensified Campaign on TB Elimination" data-hi="MHA ने टीबी उन्मूलन पर 100-दिवसीय अभियान शुरू किया">MHA launches 100-Day Intensified Campaign on TB Elimination</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of Home Affairs" data-hi="गृह मंत्रालय">
+                    Ministry of Home Affairs
+                </wired-badge>
+                <p class="about translatable" data-en="Focus on health programs" data-hi="स्वास्थ्य कार्यक्रमों पर ध्यान">
+                    About: Focus on health programs
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive translatable" data-en="Positive" data-hi="सकारात्मक">Positive:<br>85%</wired-badge>
+                    <wired-badge class="neutral translatable" data-en="Neutral" data-hi="तटस्थ">Neutral:<br>10%</wired-badge>
+                    <wired-badge class="negative translatable" data-en="Negative" data-hi="नकारात्मक">Negative:<br>5%</wired-badge>
+                </div>
+                <wired-button class="read-more translatable" data-en="Read More" data-hi="और पढ़ें">Read More</wired-button>
+            </wired-card>
+
+            <!-- Ministry of Finance -->
+            <wired-card class="article-card">
+                <img src="images/ministry_finance.jpg" alt="Ministry of Finance">
+                <h3 class="translatable" data-en="Finance Ministry releases Annual Report 2023-24" data-hi="वित्त मंत्रालय ने वार्षिक रिपोर्ट 2023-24 जारी की">Finance Ministry releases Annual Report 2023-24</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of Finance" data-hi="वित्त मंत्रालय">
+                    Ministry of Finance
+                </wired-badge>
+                <p class="about translatable" data-en="Focus on financial stability" data-hi="वित्तीय स्थिरता पर ध्यान">
+                    About: Focus on financial stability
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>72%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>23%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>5%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+
+            <!-- Department of Internal Security -->
+            <wired-card class="article-card">
+                <img src="images/department_internal_security.jpg" alt="Department of Internal Security">
+                <h3 class="translatable" data-en="MHA issues guidelines for implementation of BNSS provisions" data-hi="MHA ने BNSS प्रावधानों के कार्यान्वयन के लिए दिशानिर्देश जारी किए">MHA issues guidelines for implementation of BNSS provisions</h3>
+                <wired-badge class="department-box translatable" data-en="Department of Internal Security" data-hi="आंतरिक सुरक्षा विभाग">
+                    Department of Internal Security
+                </wired-badge>
+                <p class="about translatable" data-en="Improving internal security measures" data-hi="आंतरिक सुरक्षा उपायों में सुधार">
+                    About: Improving internal security measures
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>80%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>15%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>5%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+
+            <!-- Ministry of Culture -->
+            <wired-card class="article-card">
+                <img src="images/ministry_culture.jpg" alt="Ministry of Culture">
+                <h3 class="translatable" data-en="Sahitya Akademi announces annual awards for 2024" data-hi="साहित्य अकादमी ने 2024 के लिए वार्षिक पुरस्कारों की घोषणा की">Sahitya Akademi announces annual awards for 2024</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of Culture" data-hi="संस्कृति मंत्रालय">
+                    Ministry of Culture
+                </wired-badge>
+                <p class="about translatable" data-en="Promoting literature and arts" data-hi="साहित्य और कला को बढ़ावा देना">
+                    About: Promoting literature and arts
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>78%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>18%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>4%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+
+            <!-- Ministry of Information And Broadcasting -->
+            <wired-card class="article-card">
+                <img src="images/ministry_information_broadcasting.jpg" alt="Ministry of Information And Broadcasting">
+                <h3 class="translatable" data-en="Doordarshan announced as official broadcast partner for Hockey India League 2024-25" data-hi="हॉकी इंडिया लीग 2024-25 के लिए दूरदर्शन को आधिकारिक प्रसारण भागीदार घोषित किया गया">Doordarshan announced as official broadcast partner for Hockey India League 2024-25</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of Information And Broadcasting" data-hi="सूचना और प्रसारण मंत्रालय">
+                    Ministry of Information And Broadcasting
+                </wired-badge>
+                <p class="about translatable" data-en="Expanding sports broadcasting" data-hi="खेल प्रसारण का विस्तार">
+                    About: Expanding sports broadcasting
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>81%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>14%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>5%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+
+            <!-- Ministry of External Affairs -->
+            <wired-card class="article-card">
+                <img src="images/ministry_external_affairs.jpg" alt="Ministry of External Affairs">
+                <h3 class="translatable" data-en="India strengthens bilateral ties with Japan" data-hi="भारत ने जापान के साथ द्विपक्षीय संबंधों को मजबूत किया">India strengthens bilateral ties with Japan</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of External Affairs" data-hi="विदेश मंत्रालय">
+                    Ministry of External Affairs
+                </wired-badge>
+                <p class="about translatable" data-en="Enhancing global partnerships" data-hi="वैश्विक साझेदारी को बढ़ाना">
+                    About: Enhancing global partnerships
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>88%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>10%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>2%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+
+            <!-- Ministry of Law & Justice -->
+            <wired-card class="article-card">
+                <img src="images/ministry_law_justice.jpg" alt="Ministry of Law & Justice">
+                <h3 class="translatable" data-en="Supreme Court launches AI-based e-filing system" data-hi="सुप्रीम कोर्ट ने AI-आधारित ई-फाइलिंग सिस्टम लॉन्च किया">Supreme Court launches AI-based e-filing system</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of Law & Justice" data-hi="कानून और न्याय मंत्रालय">
+                    Ministry of Law & Justice
+                </wired-badge>
+                <p class="about translatable" data-en="Promoting legal tech innovations" data-hi="कानूनी तकनीक नवाचारों को बढ़ावा देना">
+                    About: Promoting legal tech innovations
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>80%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>15%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>5%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+
+            <!-- Ministry of Science and Technology -->
+            <wired-card class="article-card">
+                <img src="images/ministry_science_technology.jpg" alt="Ministry of Science and Technology">
+                <h3 class="translatable" data-en="India successfully tests reusable space vehicle" data-hi="भारत ने पुन: प्रयोज्य अंतरिक्ष वाहन का सफलतापूर्वक परीक्षण किया">India successfully tests reusable space vehicle</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of Science and Technology" data-hi="विज्ञान और प्रौद्योगिकी मंत्रालय">
+                    Ministry of Science and Technology
+                </wired-badge>
+                <p class="about translatable" data-en="Advancing aerospace technologies" data-hi="एयरोस्पेस प्रौद्योगिकियों को आगे बढ़ाना">
+                    About: Advancing aerospace technologies
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>92%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>6%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>2%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+
+            <!-- Ministry of Youth Affairs and Sports -->
+            <wired-card class="article-card">
+                <img src="images/ministry_youth_sports.jpg" alt="Ministry of Youth Affairs and Sports">
+                <h3 class="translatable" data-en="India's U-19 cricket team wins World Cup" data-hi="भारत की अंडर-19 क्रिकेट टीम ने विश्व कप जीता">India's U-19 cricket team wins World Cup</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of Youth Affairs and Sports" data-hi="युवा मामले और खेल मंत्रालय">
+                    Ministry of Youth Affairs and Sports
+                </wired-badge>
+                <p class="about translatable" data-en="Highlighting youth sports achievements" data-hi="युवा खेल उपलब्धियों को उजागर करना">
+                    About: Highlighting youth sports achievements
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>87%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>10%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>3%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+
+            <!-- Ministry of Electronics and Information Technology -->
+            <wired-card class="article-card">
+                <img src="images/ministry_electronics_it.jpg" alt="Ministry of Electronics and Information Technology">
+                <h3 class="translatable" data-en="India introduces national cybersecurity strategy" data-hi="भारत ने राष्ट्रीय साइबर सुरक्षा रणनीति पेश की">India introduces national cybersecurity strategy</h3>
+                <wired-badge class="department-box translatable" data-en="Ministry of Electronics and Information Technology" data-hi="इलेक्ट्रॉनिक्स और सूचना प्रौद्योगिकी मंत्रालय">
+                    Ministry of Electronics and Information Technology
+                </wired-badge>
+                <p class="about translatable" data-en="Focusing on digital security" data-hi="डिजिटल सुरक्षा पर ध्यान केंद्रित करना">
+                    About: Focusing on digital security
+                </p>
+                <div class="sentiment">
+                    <wired-badge class="positive">Positive:<br>83%</wired-badge>
+                    <wired-badge class="neutral">Neutral:<br>14%</wired-badge>
+                    <wired-badge class="negative">Negative:<br>3%</wired-badge>
+                </div>
+                <wired-button class="read-more">Read More</wired-button>
+            </wired-card>
+        </div>
+    </section>
+
+    <!-- Include Wired Elements Library -->
+    <script type="module" src="https://unpkg.com/wired-elements"></script>
+
+    <script>
+        // Function to handle manual translation if needed
+        function translatePage(lang) {
+            const elements = document.querySelectorAll('.translatable');
+            elements.forEach(el => {
+                if (el.dataset[lang]) {
+                    el.textContent = el.dataset[lang];
+                }
+            });
+        }
+
+        // Listen for Google Translate events
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would be called when Google Translate finishes
+            // You might need to adjust based on actual Google Translate behavior
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class') {
+                        const lang = document.documentElement.lang;
+                        translatePage(lang);
+                    }
+                });
+            });
+            
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        });
+    </script>
+</body>
+</html>

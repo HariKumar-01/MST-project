@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="pibApp" ng-controller="LoginController">
+<head>
+  <meta charset="UTF-8">
+  <title>PIB Authority Login</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #001d3d, #003566);
+      color: white;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 0 30px rgba(0, 200, 255, 0.1);
+    }
+
+    .login-box h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: white;
+      text-align: center;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .login-box input::placeholder {
+      color: #ccc;
+    }
+
+    .forgot {
+      text-align: right;
+      margin-bottom: 20px;
+      color: #ccc;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      font-size: 1rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #0077ff, #00d9ff);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .error-msg {
+      color: red;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="container">
+  <div class="panel">
+<img src="{{ url_for('send_image', filename='PIB.png') }}" alt="National Emblem">
+  </div>
+
+  <div class="login-box">
+    <h2>PIB Authority Login</h2>
+    <form ng-submit="login()">
+      <input type="text" placeholder="Username" ng-model="username" required>
+      <input type="password" placeholder="Password" ng-model="password" required>
+      <div class="forgot">Forgot password?</div>
+      <button type="submit" class="login-btn">Log in</button>
+    </form>
+    <div class="error-msg" ng-show="loginError">Invalid username or password</div>
+  </div>
+</div>
+
+<script>
+  // AngularJS logic
+  const app = angular.module('pibApp', []);
+  app.controller('LoginController', function($scope) {
+    $scope.username = '';
+    $scope.password = '';
+    $scope.loginError = false;
+
+    $scope.login = function() {
+      if ($scope.username === 'admin' && $scope.password === '1234') {
+        $scope.loginError = false;
+        window.location.href = '/pib'; // Use route as defined in Flask
+      } else {
+        $scope.loginError = true;
+      }
+    };
+  });
+
+  // Wait until the window is fully loaded
+  window.onload = function () {
+    const canvas = document.getElementById('bgCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const points = Array.from({ length: 60 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00d9ff';
+      points.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let j = 0; j < points.length; j++) {
+          const q = points[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(0, 217, 255, 0.1)';
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  };
+</script>
+
+</body>
+</html>
